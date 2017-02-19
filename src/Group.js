@@ -7,7 +7,7 @@ class Group extends Component {
 
     componentDidMount() {
         var that = this;
-        request.get('https://dziennik-api.herokuapp.com/groups/' + that.props.params.groupId, function (err, res, body) {
+        request.get('https://dziennik-api.herokuapp.com/protected/' + that.props.params.groupId, function (err, res, body) {
             let group = JSON.parse(body);
             group.students.forEach(student => {
                 if (student.tests === undefined) {
