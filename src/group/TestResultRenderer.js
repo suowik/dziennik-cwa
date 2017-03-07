@@ -48,32 +48,9 @@ class TestResultRenderer extends Component {
     }
 
     renderMarkFactory(studentId, columnId) {
-        let markNames = ['first', 'second', 'third'];
-
         return (marks, mark, i)=> {
-            let prevMark = marks[markNames[i - 1]];
-            let rawValue = TestResultRenderer.rawMarkValue(marks, mark);
-            if (rawValue === 0) {
-                return this.renderSelect(studentId, columnId, mark)
-            }
-            if (prevMark === "2.0" && rawValue == null) {
-                return this.renderSelect(studentId, columnId, mark)
-            }
-            return rawValue;
+            return TestResultRenderer.rawMarkValue(marks, mark);
         }
-    }
-
-    renderSelect(studentId, columnId, mark) {
-        let id = studentId + "_" + columnId + "_" + mark;
-        return <select key={id} onChange={this.changeMark(studentId,columnId,mark)}>
-            <option value="0">0</option>
-            <option value="2.0">2.0</option>
-            <option value="3.0">3.0</option>
-            <option value="3.5">3.5</option>
-            <option value="4.0">4.0</option>
-            <option value="4.5">4.5</option>
-            <option value="5.0">5.0</option>
-        </select>
     }
 
     changeMark(studentId, columnId, mark) {
