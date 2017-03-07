@@ -25,7 +25,7 @@ class Group extends Component {
             let testNames = refStudent.tests.map(test=> {
                 return test.name
             });
-            let commonHeaders = ["#", "Imię", "Nazwisko"];
+            let commonHeaders = ["Imię", "Nazwisko"];
 
             that.setState({
                 attendanceHeaders: commonHeaders.concat(attendanceHeaders).concat("[% obecności]"),
@@ -55,7 +55,7 @@ class Group extends Component {
         };
 
 
-        let commonHeaders = ["#", "Imię", "Nazwisko"];
+        let commonHeaders = ["Imię", "Nazwisko"];
         let refStudent = group.students[0];
         let attendanceHeaders = refStudent.attendances.map(attendance=> {
             return attendance.date

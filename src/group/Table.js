@@ -42,8 +42,6 @@ class Table extends Component {
                 <tbody>
                 {this.state.group.students.map((student, idx) => (
                     <tr key={student.id}>
-                        <td>
-                        </td>
                         <td>{student.name}</td>
                         <td>{student.surname}</td>
                         {student[this.state.rows].map((row, idx) => (
