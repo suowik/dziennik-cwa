@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import {resolveSemester} from '../common/resolveSemester.js'
+
 class Table extends Component {
 
     constructor(props) {
@@ -40,7 +42,7 @@ class Table extends Component {
                 </tr>
                 </tfoot>
                 <tbody>
-                {this.state.group.students.map((student, idx) => (
+                {resolveSemester(this.state.group).students.map((student, idx) => (
                     <tr key={student.id}>
                         <td>{student.name}</td>
                         <td>{student.surname}</td>

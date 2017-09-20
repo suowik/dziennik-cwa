@@ -3,34 +3,50 @@ import request from 'request'
 import Table from './group/Table.js'
 import TestResultRenderer from './group/TestResultRenderer.js'
 
+import {resolveSemester} from './common/resolveSemester.js'
+
 class Group extends Component {
 
     componentDidMount() {
         var that = this;
         request.get('https://dziennik-api.herokuapp.com/protected/' + that.props.params.groupId, function (err, res, body) {
             let group = JSON.parse(body);
-            group.students.forEach(student => {
+            let semester = resolveSemester(group);
+            semester.students.forEach(student => {
                 if (student.tests === undefined) {
                     student.tests = []
                 }
                 if (student.attendances === undefined) {
                     student.attendances = []
                 }
+                if (student.homework === undefined) {
+                    student.homework = []
+                }
             });
-            let refStudent = group.students[0];
+            let refStudent = semester.students[0];
+            let attendanceHeaders = [];
+            let testNames = [];
+            let homeworkNames = [];
+            if (refStudent) {
+                attendanceHeaders = refStudent.attendances.map(attendance => {
+                    return attendance.date
+                });
+                testNames = refStudent.tests.map(test => {
+                    return test.name
+                });
+                homeworkNames = refStudent.homework.map(hw => {
+                    return hw.date
+                });
+            }
 
-            let attendanceHeaders = refStudent.attendances.map(attendance=> {
-                return attendance.date
-            });
-            let testNames = refStudent.tests.map(test=> {
-                return test.name
-            });
             let commonHeaders = ["Imię", "Nazwisko"];
 
             that.setState({
                 attendanceHeaders: commonHeaders.concat(attendanceHeaders).concat("[% obecności]"),
                 attendances: attendanceHeaders,
-                testNames: commonHeaders.concat(testNames),
+                homeworkHeaders: commonHeaders.concat(homeworkNames).concat(""),
+                homework: homeworkNames,
+                testNames: commonHeaders.concat(testNames).concat("Średnia"),
                 tests: testNames,
                 group: group
             });
@@ -40,27 +56,37 @@ class Group extends Component {
     constructor(props) {
         super(props);
         let group = {
+            _id: "GT%H$EW#^",
             name: "",
-            _id: "",
-            dateOfActivities: "",
-            students: [
+            description: "",
+            activeYear: "2016/2017",
+            activeSemester: 2,
+            semesters: [
                 {
-                    id: 1,
-                    name: "",
-                    surname: "",
-                    tests: [],
-                    attendances: []
+                    year: "2016/2017",
+                    semester: 2,
+                    students: [
+                        {
+                            name: "",
+                            id: 0,
+                            tests: [],
+                            homework: [],
+                            surname: "",
+                            attendances: []
+                        }
+                    ]
                 }
-            ]
+            ],
+            password: "",
+            dateOfActivities: ""
         };
 
-
         let commonHeaders = ["Imię", "Nazwisko"];
-        let refStudent = group.students[0];
-        let attendanceHeaders = refStudent.attendances.map(attendance=> {
+        let refStudent = group.semesters[0].students[0];
+        let attendanceHeaders = refStudent.attendances.map(attendance => {
             return attendance.date
         });
-        let testNames = refStudent.tests.map(test=> {
+        let testNames = refStudent.tests.map(test => {
             return test.name
         });
         this.state = {
@@ -86,7 +112,7 @@ class Group extends Component {
                                        rows='tests'
                                        group={this.state.group}
                                        renderer={TestResultRenderer}
-                                    />
+                                />
                             </div>
                         </div>
                     </div>
