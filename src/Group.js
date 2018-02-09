@@ -23,6 +23,9 @@ class Group extends Component {
                     student.homework = []
                 }
             });
+            if (group.announcements === undefined) {
+                group.announcements = []
+            }
             let refStudent = semester.students[0];
             let attendanceHeaders = [];
             let testNames = [];
@@ -117,6 +120,25 @@ class Group extends Component {
                         </div>
                     </div>
                 </div>
+                {this.state.group.announcements.length > 0 &&
+                <div className="col-sm-12">
+                    <table className="table table-striped table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.group.announcements.map((a, i) =>
+                            <tr key={i}>
+                                <td>{a.date}</td>
+                                <td>{a.text}</td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+                </div>}
             </div>
         )
     }
