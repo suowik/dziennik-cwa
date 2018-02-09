@@ -49,7 +49,7 @@ class Group extends Component {
                 attendances: attendanceHeaders,
                 homeworkHeaders: commonHeaders.concat(homeworkNames).concat(""),
                 homework: homeworkNames,
-                testNames: commonHeaders.concat(testNames).concat("Średnia"),
+                testNames: commonHeaders.concat(testNames),
                 tests: testNames,
                 group: group
             });
