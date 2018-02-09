@@ -64,6 +64,7 @@ class Group extends Component {
             description: "",
             activeYear: "2016/2017",
             activeSemester: 2,
+            announcements: [],
             semesters: [
                 {
                     year: "2016/2017",
