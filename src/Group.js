@@ -105,24 +105,11 @@ class Group extends Component {
     render() {
         return (
             <div className="row">
-                <div className="col-sm-12">
-                    <div className="page-header">
-                        <h4>Wyniki kolokwiów</h4>
-                    </div>
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="table-responsive">
-                                <Table headers={this.state.testNames}
-                                       rows='tests'
-                                       group={this.state.group}
-                                       renderer={TestResultRenderer}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 {this.state.group.announcements.length > 0 &&
                 <div className="col-sm-12">
+                    <div className="page-header">
+                        <h4>Ogłoszenia</h4>
+                    </div>
                     <table className="table table-striped table-condensed">
                         <thead>
                         <tr>
@@ -140,6 +127,23 @@ class Group extends Component {
                         </tbody>
                     </table>
                 </div>}
+                <div className="col-sm-12">
+                    <div className="page-header">
+                        <h4>Wyniki kolokwiów</h4>
+                    </div>
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <div className="table-responsive">
+                                <Table headers={this.state.testNames}
+                                       rows='tests'
+                                       group={this.state.group}
+                                       renderer={TestResultRenderer}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         )
     }
