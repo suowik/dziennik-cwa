@@ -121,7 +121,7 @@ class Group extends Component {
                         {this.state.group.announcements.map((a, i) =>
                             <tr key={i}>
                                 <td>{a.date}</td>
-                                <td>{a.text}</td>
+                                <td>{a.text.replace(/%28/g,"(").replace(/%29/g,")")}</td>
                             </tr>
                         )}
                         </tbody>
