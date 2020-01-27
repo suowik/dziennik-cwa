@@ -5,10 +5,17 @@ class TestResultRenderer extends Component {
 
     failed(marks) {
         let arrayMarks = this.marksToArray(marks, TestResultRenderer.rawMarkValue);
-        let sum = arrayMarks.reduce((a, b)=> {
+        let sum = arrayMarks.reduce((a, b) => {
             return a + b
         });
-        return (sum / arrayMarks.length < 3.0) && arrayMarks[arrayMarks.length - 1] < 3;
+        let passed = this.marksToArray(marks,(all,mark)=>{
+            return all[mark] === "PASSED"
+        });
+        if(isNaN(sum / arrayMarks.length)){
+            return passed.filter(e=>e).length === 0
+        } else {
+            return ((sum / arrayMarks.length < 3.0) && arrayMarks[arrayMarks.length - 1] < 3);
+        }
     }
 
     componentWillReceiveProps(props) {
@@ -53,18 +60,6 @@ class TestResultRenderer extends Component {
         }
     }
 
-    changeMark(studentId, columnId, mark) {
-        return (e)=> {
-            let group = this.state.group;
-            group.students[studentId]['tests'][columnId]['marks'][mark] = e.target.value;
-            request.post('https://dziennik-api.herokuapp.com/groups/', {form: JSON.stringify(group)}, e => {
-                this.setState({
-                    group: group
-                });
-            });
-        }
-    }
-
     marksToArray(marks, cb) {
         return ['first', 'second', 'third'].map((mark, i)=> {
             return cb(marks, mark, i)
@@ -73,7 +68,13 @@ class TestResultRenderer extends Component {
 
     static rawMarkValue(marks, mark) {
         let value = marks[mark];
-        if (value !== null && value !== undefined) {
+        if(value === "PASSED" || value === "NOT_PASSED"){
+            if(value === "PASSED"){
+                return "zal";
+            } else {
+                return "nzal";
+            }
+        } else if (value !== null && value !== undefined) {
             return parseFloat(value)
         }
         return null
